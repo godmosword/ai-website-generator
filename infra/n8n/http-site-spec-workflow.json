@@ -1,0 +1,69 @@
+{
+  "name": "http-site-spec-pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "site-spec-ingest",
+        "httpMethod": "POST",
+        "responseMode": "onReceived"
+      },
+      "id": "Webhook_SiteSpec",
+      "name": "Webhook_SiteSpec",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-520, 220]
+    },
+    {
+      "parameters": {
+        "jsCode": "const b = $json.body ?? $json;\nconst siteSpec = b.siteSpec ?? b;\nif (!siteSpec || typeof siteSpec.slug !== 'string') {\n  throw new Error('Expected JSON body: full SiteSpec or { \"siteSpec\": { ... } } with slug');\n}\nreturn [{ json: { siteSpec } }];"
+      },
+      "id": "Normalize_SiteSpec",
+      "name": "Normalize_SiteSpec",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-260, 220]
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/data/sites/{{$json.siteSpec.slug}}/site-spec.json",
+        "dataPropertyName": "siteSpec",
+        "options": {}
+      },
+      "id": "Write_Artifact",
+      "name": "Write_Artifact",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [-20, 220]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.GITHUB_WORKFLOW_DISPATCH_URL}}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"ref\":\"main\",\"inputs\":{\"slug\":$json.siteSpec.slug}}"
+      },
+      "id": "Trigger_GitHub_Actions",
+      "name": "Trigger_GitHub_Actions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [220, 220]
+    }
+  ],
+  "connections": {
+    "Webhook_SiteSpec": {
+      "main": [[{ "node": "Normalize_SiteSpec", "type": "main", "index": 0 }]]
+    },
+    "Normalize_SiteSpec": {
+      "main": [[{ "node": "Write_Artifact", "type": "main", "index": 0 }]]
+    },
+    "Write_Artifact": {
+      "main": [[{ "node": "Trigger_GitHub_Actions", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

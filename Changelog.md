@@ -8,7 +8,12 @@
 
 ### Added
 
+- `packages/site-spec`：`validateSiteSpec` 單元測試（[schema.test.ts](packages/site-spec/src/schema.test.ts)）。
+
 ### Changed
+
+- 產品敘述與 repo 結構收斂為 **SiteSpec → 靜態頁 → GitHub Pages**；選用 **Dify／n8n** 作為產出或遞送 SiteSpec 的管道，不再以即時通訊為預設入口。
+- [`scripts/build-sites.mjs`](scripts/build-sites.mjs)：當設定了 **`SITE_SLUG`** 但未成功建置該 slug（缺 `site-spec.json` 等）時結束碼為 **1**，避免 CI 靜默成功。
 
 ### Fixed
 
@@ -16,6 +21,9 @@
 - **Monorepo `npm ci`**：發佈 `0.1.1` 後，`line-webhook` / `renderer` 仍依賴 `@webomate/*@0.1.0`，與工作區版本不一致，導致 CI 向 npm registry 抓套件而 **404**。已改為依賴 **`0.1.1`** 並更新 `package-lock.json`。
 
 ### Removed
+
+- **`apps/line-webhook`** 與所有 LINE Webhook／`@line/bot-sdk` 依賴；workspace 僅保留 `packages/*`。
+- n8n 範例 **`line-to-site-workflow.json`**，改為 **`http-site-spec-workflow.json`**（HTTP 接收 SiteSpec JSON）。
 
 ---
 

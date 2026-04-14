@@ -66,6 +66,25 @@ async function main() {
     return;
   }
 
+  if (siteSlugFilter) {
+    const match = results.find((r) => r.slug === siteSlugFilter);
+    if (!match || match.status !== "built") {
+      console.error(
+        JSON.stringify(
+          {
+            slug: siteSlugFilter,
+            reason: "SITE_SLUG 未對應到已建置的資料夾（需存在 sites/<slug>/site-spec.json）",
+            results
+          },
+          null,
+          2
+        )
+      );
+      process.exitCode = 1;
+      return;
+    }
+  }
+
   console.log(JSON.stringify(results, null, 2));
 }
 

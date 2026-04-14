@@ -1,17 +1,17 @@
 # ai-website-generator
 
-以 **LINE 對話** 收集需求、**Dify（RAG）** 產出結構化 **SiteSpec**、再由 **renderer** 生成單頁靜態站，並可透過 **GitHub Actions** 部署到 **GitHub Pages** 的 MVP 骨架。靈感來自對話式架站產品（例如 [Webomate](https://webomate.com.tw/#line-cta)）的流程拆分。
+以 **SiteSpec**（結構化 JSON）為單一真實來源，由 **renderer** 產出單頁靜態 HTML，並可透過 **GitHub Actions** 部署到 **GitHub Pages**。  
+內容可由你手寫／編輯器維護，或由 **Dify、n8n、其他 AI 服務** 產出符合 schema 的 JSON 後寫入 `sites/<slug>/site-spec.json`，再觸發建置。
 
 ## 專案結構
 
 | 路徑 | 說明 |
 |------|------|
-| `apps/line-webhook` | LINE Webhook：簽章驗證、事件佇列、可選 Dify、寫入 `sites/<slug>/` |
 | `packages/site-spec` | `SiteSpec` 型別、JSON Schema、`validateSiteSpec`、fixtures |
 | `packages/renderer` | `SiteSpec` → 單頁 HTML |
 | `scripts/build-sites.mjs` | CI／本機：依 `sites/<slug>/site-spec.json` 產生 `index.html` |
 | `.github/workflows/deploy-pages.yml` | 建置並部署 `sites/` 到 GitHub Pages |
-| `infra/dify`、`infra/n8n`、`infra/github-pages` | 流程與平台設定說明 |
+| `infra/dify`、`infra/n8n`、`infra/github-pages` | 選用：AI／自動化與平台設定說明 |
 
 更細的 Pages 與 n8n 說明請見 [infra/github-pages/README.md](infra/github-pages/README.md)、[infra/n8n/README.md](infra/n8n/README.md)。
 
@@ -29,21 +29,17 @@ npm test
 npm run build:sites
 ```
 
-編譯 workspace（含 `site-spec`、`renderer` 的 `dist/`）：
+只重建某一個 slug（與 CI 的 `SITE_SLUG` 相同）：
+
+```bash
+SITE_SLUG=demo-brand npm run build:sites
+```
+
+編譯 workspace（`site-spec`、`renderer` 的 `dist/`）：
 
 ```bash
 npm run build
 ```
-
-### LINE Webhook
-
-進入 `apps/line-webhook` 前請設定環境變數（範例）：
-
-- `LINE_CHANNEL_ACCESS_TOKEN`、`LINE_CHANNEL_SECRET`：必填  
-- `PUBLIC_BASE_URL`：預覽連結前綴（需對齊你實際託管網址）  
-- `DIFY_API_URL`、`DIFY_API_KEY`：選填；未設定時會用內建 fixture 改寫描述作 fallback  
-
-詳見 [apps/line-webhook/src/config.ts](apps/line-webhook/src/config.ts)。
 
 ## 文件與變更紀錄
 

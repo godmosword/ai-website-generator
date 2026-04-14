@@ -25,8 +25,8 @@
       "style": "primary"
     },
     {
-      "label": "加入 LINE 詢問",
-      "url": "https://line.me/R/ti/p/@webomate",
+      "label": "客服諮詢",
+      "url": "https://example.com/contact",
       "style": "secondary"
     }
   ],

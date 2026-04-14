@@ -36,10 +36,11 @@ HTTP Request 範例：
 
 `slug` 可留空字串或省略 `inputs`，代表重建 `sites/` 底下所有子資料夾。
 
-## LINE 預覽網址
+## 靜態站預覽網址
 
-`apps/line-webhook` 的 `PUBLIC_BASE_URL` 請設成 Pages 根路徑加上 `/sites` 或你實際託管靜態檔的路徑。若整包 `sites/` 就是 Pages 根目錄，則為：
+若 **GitHub Pages** 的 artifact 根目錄即為 `sites/` 的內容（本 repo workflow 預設上傳 `sites/`），則每個子資料夾對應一個子路徑：
 
-`https://<owner>.github.io/<repo>/`
+- 站台根：`https://<owner>.github.io/<repo>/`
+- 某一 slug 範例：`https://<owner>.github.io/<repo>/demo-brand/`（實際路徑依 `sites/<slug>/index.html` 是否位於該路徑而定）
 
-預覽連結會是：`https://<owner>.github.io/<repo>/<slug>/`
+若你改用自訂網域或子目錄部署，請將對外分享連結與實際 `base` 設定對齊。

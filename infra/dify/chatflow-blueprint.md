@@ -3,7 +3,7 @@
 ## 節點建議
 
 1. **Start**
-   - Input: `query`（LINE 使用者輸入）
+   - Input: `query`（使用者以自然語言描述品牌／頁面需求）
 2. **LLM - 資訊萃取**
    - 任務：將 `query` 轉成結構化品牌資訊（產業、主打服務、CTA、連結）
 3. **Knowledge Retrieval**

@@ -10,6 +10,7 @@ describe("renderSinglePage", () => {
     expect(html).toContain("<!doctype html>");
     expect(html).toContain("高雄山泉小農");
     expect(html).toContain("立即下單");
+    expect(html).toContain("客服諮詢");
     expect(html).toContain("maps.google.com");
   });
 
