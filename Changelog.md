@@ -12,6 +12,8 @@
 
 ### Fixed
 
+- GitHub Actions：`deploy-pages.yml` 先前誤用 **不存在的** `configure-pages@v5.0.1`、`upload-pages-artifact@v4.0.1`（上游 Node 24 版為 **`v6.0.0`**；upload 之 `upload-artifact@v7` 變更發佈為 **`v5.0.0`**）。已改為 `actions/configure-pages@v6`、`actions/upload-pages-artifact@v5`。
+
 ### Removed
 
 ---
@@ -25,7 +27,7 @@
 
 ### Changed
 
-- GitHub Actions：升級 `checkout`、`setup-node`、`deploy-pages`；並釘選 `actions/configure-pages@v5.0.1`、`actions/upload-pages-artifact@v4.0.1`（上游已宣告 Node 24 / 相依 `upload-artifact@v7`），移除 `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24`，避免「強制在 Node 24 執行仍標 Node 20 的 action」之雙重提示。
+- GitHub Actions：升級 `checkout`、`setup-node`、`deploy-pages`；移除 `FORCE_JAVASCRIPT_ACTIONS_TO_NODE24`。曾嘗試釘選不存在的 action patch 標籤（已於 **[Unreleased]** 改為 `configure-pages@v6`、`upload-pages-artifact@v5`）。
 
 ---
 
