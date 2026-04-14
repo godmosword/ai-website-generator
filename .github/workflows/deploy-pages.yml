@@ -25,6 +25,9 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -58,7 +61,6 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: sites
-          include-hidden-files: true
 
   deploy:
     needs: build
