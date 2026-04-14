@@ -63,4 +63,4 @@ npm run build
 
 ## 授權
 
-若尚未決定授權條款，請於首次公開前補上 `LICENSE` 並在本 README 註明。
+本專案以 [MIT License](LICENSE) 釋出。

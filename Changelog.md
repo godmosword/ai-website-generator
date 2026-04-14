@@ -8,6 +8,7 @@
 
 ### Added
 
+- 根目錄 [LICENSE](LICENSE)（**MIT**）。
 - `packages/site-spec`：`validateSiteSpec` 單元測試（[schema.test.ts](packages/site-spec/src/schema.test.ts)）。
 
 ### Changed
