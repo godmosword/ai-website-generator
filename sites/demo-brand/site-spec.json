@@ -1,0 +1,44 @@
+{
+  "slug": "demo-brand",
+  "brandName": "示範品牌（GitHub Pages）",
+  "hero": {
+    "title": "用對話產生的一頁式官網",
+    "subtitle": "SiteSpec → 靜態 HTML",
+    "description": "此頁由 CI 讀取 site-spec.json 並透過 @webomate/renderer 產生，可作為部署驗證範例。"
+  },
+  "sections": [
+    {
+      "id": "how",
+      "heading": "如何更新",
+      "body": "修改本資料夾的 site-spec.json 後推送 main，或手動執行 Deploy GitHub Pages workflow，即會重新產生 index.html。"
+    }
+  ],
+  "ctas": [
+    {
+      "label": "查看專案",
+      "url": "https://github.com/",
+      "style": "primary"
+    }
+  ],
+  "links": [
+    {
+      "label": "LINE 官方帳號（示意）",
+      "url": "https://line.me/R/ti/p/@webomate",
+      "icon": "line"
+    }
+  ],
+  "contact": {
+    "email": "hello@example.com"
+  },
+  "seo": {
+    "title": "示範品牌｜AI Website Generator",
+    "description": "GitHub Pages 部署示範頁。",
+    "keywords": ["示範", "GitHub Pages", "SiteSpec"]
+  },
+  "theme": {
+    "tone": "minimal",
+    "primaryColor": "#2563EB",
+    "secondaryColor": "#F59E0B",
+    "fontFamily": "Noto Sans TC"
+  }
+}

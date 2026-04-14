@@ -1,0 +1,17 @@
+{
+  "name": "@webomate/line-webhook",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "@line/bot-sdk": "^9.7.0",
+    "@webomate/renderer": "0.1.0",
+    "@webomate/site-spec": "0.1.0",
+    "zod": "^4.1.12"
+  }
+}

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Website Generator · Sites</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        background: #0b1220;
+        color: #e5e7eb;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+      }
+      .card {
+        max-width: 560px;
+        background: #111827;
+        border: 1px solid #1f2937;
+        border-radius: 16px;
+        padding: 28px;
+        line-height: 1.7;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 1.35rem;
+      }
+      p {
+        margin: 0 0 12px;
+        color: #9ca3af;
+      }
+      code {
+        background: #0f172a;
+        padding: 2px 6px;
+        border-radius: 6px;
+        color: #fbbf24;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card">
+      <h1>靜態站點根目錄</h1>
+      <p>
+        每個品牌網站會出現在子路徑，例如
+        <code>/demo-brand/</code>（依你的 repo 名稱，完整網址會是 GitHub Pages 的 project URL）。
+      </p>
+      <p>
+        將 <code>site-spec.json</code> 放到 <code>sites/&lt;slug&gt;/</code> 後推送，或觸發
+        <code>Deploy GitHub Pages</code> workflow，即會產生對應的
+        <code>index.html</code>。
+      </p>
+    </main>
+  </body>
+</html>

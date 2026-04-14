@@ -1,0 +1,134 @@
+{
+  "name": "line-to-site-pipeline",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "line-site-build",
+        "responseMode": "onReceived"
+      },
+      "id": "Webhook_LINE",
+      "name": "Webhook_LINE",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -520,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.DIFY_API_URL + '/chat-messages'}}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"query\": $json.userText, \"response_mode\": \"blocking\", \"user\": $json.userId}"
+      },
+      "id": "Call_Dify",
+      "name": "Call_Dify",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -260,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const raw = $json.answer || '{}';\nconst siteSpec = JSON.parse(raw);\nreturn [{ json: { userId: $item(0).$node['Webhook_LINE'].json.userId, siteSpec } }];"
+      },
+      "id": "Parse_SiteSpec",
+      "name": "Parse_SiteSpec",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -20,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/data/sites/{{$json.siteSpec.slug}}/site-spec.json",
+        "dataPropertyName": "siteSpec",
+        "options": {}
+      },
+      "id": "Write_Artifact",
+      "name": "Write_Artifact",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        220,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.GITHUB_WORKFLOW_DISPATCH_URL}}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\"ref\":\"main\",\"inputs\":{\"slug\":$json.siteSpec.slug}}"
+      },
+      "id": "Trigger_GitHub_Actions",
+      "name": "Trigger_GitHub_Actions",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        220
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook_LINE": {
+      "main": [
+        [
+          {
+            "node": "Call_Dify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call_Dify": {
+      "main": [
+        [
+          {
+            "node": "Parse_SiteSpec",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse_SiteSpec": {
+      "main": [
+        [
+          {
+            "node": "Write_Artifact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write_Artifact": {
+      "main": [
+        [
+          {
+            "node": "Trigger_GitHub_Actions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

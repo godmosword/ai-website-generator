@@ -1,0 +1,70 @@
+{
+  "slug": "kaohsiung-farm",
+  "brandName": "高雄山泉小農",
+  "hero": {
+    "title": "來自高雄山泉灌溉的安心農產",
+    "subtitle": "在地小農・永續耕作",
+    "description": "我們專注種植金鑽鳳梨與季節農作，提供產地直送與透明履歷。"
+  },
+  "sections": [
+    {
+      "id": "about",
+      "heading": "品牌故事",
+      "body": "堅持有機友善耕作，不使用高風險化學藥劑，讓每一口都能吃到土地原味。"
+    },
+    {
+      "id": "products",
+      "heading": "主打商品",
+      "body": "金鑽鳳梨每斤 NT$65，宅配三日送達，可團購與預約採收。"
+    }
+  ],
+  "ctas": [
+    {
+      "label": "立即下單",
+      "url": "https://example.com/order",
+      "style": "primary"
+    },
+    {
+      "label": "加入 LINE 詢問",
+      "url": "https://line.me/R/ti/p/@webomate",
+      "style": "secondary"
+    }
+  ],
+  "links": [
+    {
+      "label": "Facebook",
+      "url": "https://facebook.com/example-farm",
+      "icon": "facebook"
+    },
+    {
+      "label": "Instagram",
+      "url": "https://instagram.com/example-farm",
+      "icon": "instagram"
+    },
+    {
+      "label": "Google 地圖",
+      "url": "https://maps.google.com/?q=Kaohsiung",
+      "icon": "map"
+    }
+  ],
+  "contact": {
+    "address": "高雄市大樹區示意路 88 號",
+    "phone": "07-123-4567",
+    "email": "hello@example-farm.tw"
+  },
+  "seo": {
+    "title": "高雄山泉小農｜金鑽鳳梨產地直送",
+    "description": "高雄在地小農品牌，提供金鑽鳳梨與季節農產，支持永續友善耕作。",
+    "keywords": [
+      "高雄小農",
+      "金鑽鳳梨",
+      "產地直送"
+    ]
+  },
+  "theme": {
+    "tone": "natural",
+    "primaryColor": "#2F7D4A",
+    "secondaryColor": "#F4B400",
+    "fontFamily": "Noto Sans TC"
+  }
+}

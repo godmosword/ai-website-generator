@@ -1,0 +1,49 @@
+{
+  "slug": "brand-demo",
+  "brandName": "品牌名稱",
+  "hero": {
+    "title": "主標題",
+    "subtitle": "副標題",
+    "description": "品牌描述"
+  },
+  "sections": [
+    {
+      "id": "about",
+      "heading": "品牌介紹",
+      "body": "介紹內容"
+    }
+  ],
+  "ctas": [
+    {
+      "label": "立即預約",
+      "url": "https://example.com/booking",
+      "style": "primary"
+    }
+  ],
+  "links": [
+    {
+      "label": "Instagram",
+      "url": "https://instagram.com/example",
+      "icon": "instagram"
+    }
+  ],
+  "contact": {
+    "address": "台北市示意路 1 號",
+    "phone": "02-1234-5678",
+    "email": "hello@example.com"
+  },
+  "seo": {
+    "title": "品牌 SEO 標題",
+    "description": "品牌 SEO 描述",
+    "keywords": [
+      "關鍵字1",
+      "關鍵字2"
+    ]
+  },
+  "theme": {
+    "tone": "natural",
+    "primaryColor": "#2F7D4A",
+    "secondaryColor": "#F4B400",
+    "fontFamily": "Noto Sans TC"
+  }
+}
