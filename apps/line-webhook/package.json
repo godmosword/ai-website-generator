@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@line/bot-sdk": "^9.7.0",
-    "@webomate/renderer": "0.1.0",
-    "@webomate/site-spec": "0.1.0",
+    "@webomate/renderer": "0.1.1",
+    "@webomate/site-spec": "0.1.1",
     "zod": "^4.1.12"
   }
 }

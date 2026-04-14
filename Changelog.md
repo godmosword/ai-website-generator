@@ -13,6 +13,7 @@
 ### Fixed
 
 - GitHub Actions：`deploy-pages.yml` 先前誤用 **不存在的** `configure-pages@v5.0.1`、`upload-pages-artifact@v4.0.1`（上游 Node 24 版為 **`v6.0.0`**；upload 之 `upload-artifact@v7` 變更發佈為 **`v5.0.0`**）。已改為 `actions/configure-pages@v6`、`actions/upload-pages-artifact@v5`。
+- **Monorepo `npm ci`**：發佈 `0.1.1` 後，`line-webhook` / `renderer` 仍依賴 `@webomate/*@0.1.0`，與工作區版本不一致，導致 CI 向 npm registry 抓套件而 **404**。已改為依賴 **`0.1.1`** 並更新 `package-lock.json`。
 
 ### Removed
 
