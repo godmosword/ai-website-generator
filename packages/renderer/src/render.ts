@@ -1,5 +1,11 @@
 import { validateSiteSpec } from "@webomate/site-spec";
-import type { SiteSpec } from "@webomate/site-spec";
+import type { SiteSpec, SubPage } from "@webomate/site-spec";
+import { buildThemeStyles } from "./themes.js";
+
+export interface RenderedPage {
+  slug: string;
+  html: string;
+}
 
 function escapeHtml(input: string): string {
   return input
@@ -10,13 +16,8 @@ function escapeHtml(input: string): string {
     .replaceAll("'", "&#039;");
 }
 
-export function renderSinglePage(siteSpec: SiteSpec): string {
-  const errors = validateSiteSpec(siteSpec);
-  if (errors.length > 0) {
-    throw new Error(`SiteSpec 驗證失敗: ${errors.join(", ")}`);
-  }
-
-  const sectionHtml = siteSpec.sections
+function buildSections(sections: SiteSpec["sections"]): string {
+  return sections
     .map(
       (section) => `
         <section id="${escapeHtml(section.id)}" class="section-card">
@@ -26,6 +27,53 @@ export function renderSinglePage(siteSpec: SiteSpec): string {
       `
     )
     .join("");
+}
+
+function buildPageNav(spec: SiteSpec): string {
+  if (!spec.pages?.length) return "";
+  const links = [
+    `<a href="./index.html">${escapeHtml(spec.brandName)}</a>`,
+    ...spec.pages.map(
+      (p) => `<a href="./${escapeHtml(p.slug)}/index.html">${escapeHtml(p.title)}</a>`
+    )
+  ].join(" | ");
+  return `<nav class="page-nav">${links}</nav>`;
+}
+
+function buildHtmlShell(
+  seoTitle: string,
+  seoDescription: string,
+  seoKeywords: string[],
+  themeStyles: string,
+  bodyContent: string
+): string {
+  return `<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(seoTitle)}</title>
+    <meta name="description" content="${escapeHtml(seoDescription)}" />
+    <meta name="keywords" content="${escapeHtml(seoKeywords.join(","))}" />
+    <style>${themeStyles}
+      .page-nav { padding: 12px 0; margin-bottom: 16px; font-size: 0.9rem; }
+      .page-nav a { color: var(--primary); text-decoration: none; margin-right: 8px; }
+      .page-nav a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      ${bodyContent}
+    </main>
+  </body>
+</html>`;
+}
+
+export function renderSinglePage(siteSpec: SiteSpec): string {
+  const errors = validateSiteSpec(siteSpec);
+  if (errors.length > 0) {
+    throw new Error(`SiteSpec 驗證失敗: ${errors.join(", ")}`);
+  }
 
   const ctaHtml = siteSpec.ctas
     .map(
@@ -55,79 +103,68 @@ export function renderSinglePage(siteSpec: SiteSpec): string {
     siteSpec.contact.email ? `<li>Email：${escapeHtml(siteSpec.contact.email)}</li>` : ""
   ].join("");
 
-  return `<!doctype html>
-<html lang="zh-Hant">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${escapeHtml(siteSpec.seo.title)}</title>
-    <meta name="description" content="${escapeHtml(siteSpec.seo.description)}" />
-    <meta name="keywords" content="${escapeHtml(siteSpec.seo.keywords.join(","))}" />
-    <style>
-      :root {
-        --primary: ${siteSpec.theme.primaryColor};
-        --secondary: ${siteSpec.theme.secondaryColor};
-        --font: "${escapeHtml(siteSpec.theme.fontFamily)}", sans-serif;
-      }
-      * { box-sizing: border-box; }
-      body {
-        margin: 0;
-        font-family: var(--font);
-        color: #1f2937;
-        background: #f9fafb;
-      }
-      .container { max-width: 960px; margin: 0 auto; padding: 24px; }
-      .hero { padding: 48px 0 24px; }
-      .hero h1 { margin: 0; font-size: 2rem; color: var(--primary); }
-      .hero h2 { margin-top: 8px; font-size: 1.2rem; color: #4b5563; }
-      .hero p { line-height: 1.8; }
-      .cta-wrap { display: flex; gap: 12px; flex-wrap: wrap; margin: 16px 0 32px; }
-      .btn {
-        text-decoration: none;
-        border-radius: 10px;
-        padding: 10px 16px;
-        font-weight: 600;
-        border: 1px solid transparent;
-      }
-      .btn-primary { background: var(--primary); color: #fff; }
-      .btn-secondary { background: var(--secondary); color: #111827; }
-      .btn-ghost { border-color: #9ca3af; color: #111827; background: #fff; }
-      .section-grid { display: grid; gap: 16px; margin-bottom: 32px; }
-      .section-card {
-        background: #fff;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 20px;
-      }
-      .section-card h2 { margin-top: 0; color: var(--primary); }
-      .footer-card {
-        background: #fff;
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        padding: 20px;
-      }
-      ul { margin: 0; padding-left: 20px; }
-      li + li { margin-top: 8px; }
-      @media (max-width: 768px) {
-        .hero h1 { font-size: 1.7rem; }
-      }
-    </style>
-  </head>
-  <body>
-    <main class="container">
+  const body = `
+      ${buildPageNav(siteSpec)}
       <header class="hero">
         <h1>${escapeHtml(siteSpec.hero.title)}</h1>
         <h2>${escapeHtml(siteSpec.hero.subtitle)}</h2>
         <p>${escapeHtml(siteSpec.hero.description)}</p>
       </header>
       <section class="cta-wrap">${ctaHtml}</section>
-      <section class="section-grid">${sectionHtml}</section>
+      <section class="section-grid">${buildSections(siteSpec.sections)}</section>
       <footer class="footer-card">
         <h3>${escapeHtml(siteSpec.brandName)}</h3>
         <ul>${linksHtml}</ul>
         <ul>${contactRows}</ul>
-      </footer>
-    </main>
-  </body>
-</html>`;
+      </footer>`;
+
+  return buildHtmlShell(
+    siteSpec.seo.title,
+    siteSpec.seo.description,
+    siteSpec.seo.keywords,
+    buildThemeStyles(siteSpec.theme),
+    body
+  );
+}
+
+export function renderMultiPage(siteSpec: SiteSpec): RenderedPage[] {
+  const errors = validateSiteSpec(siteSpec);
+  if (errors.length > 0) {
+    throw new Error(`SiteSpec 驗證失敗: ${errors.join(", ")}`);
+  }
+
+  const themeStyles = buildThemeStyles(siteSpec.theme);
+  const pages: RenderedPage[] = [{ slug: "index", html: renderSinglePage(siteSpec) }];
+
+  for (const subPage of siteSpec.pages ?? []) {
+    pages.push({ slug: subPage.slug, html: renderSubPage(subPage, siteSpec, themeStyles) });
+  }
+
+  return pages;
+}
+
+function renderSubPage(subPage: SubPage, root: SiteSpec, themeStyles: string): string {
+  const backNav = `<nav class="page-nav"><a href="../index.html">← ${escapeHtml(root.brandName)}</a>${
+    root.pages
+      ?.filter((p) => p.slug !== subPage.slug)
+      .map((p) => ` | <a href="../${escapeHtml(p.slug)}/index.html">${escapeHtml(p.title)}</a>`)
+      .join("") ?? ""
+  }</nav>`;
+
+  const body = `
+      ${backNav}
+      <header class="hero">
+        <h1>${escapeHtml(subPage.hero.title)}</h1>
+        <h2>${escapeHtml(subPage.hero.subtitle)}</h2>
+        <p>${escapeHtml(subPage.hero.description)}</p>
+      </header>
+      <section class="section-grid">${buildSections(subPage.sections)}</section>`;
+
+  return buildHtmlShell(
+    subPage.seo.title,
+    subPage.seo.description,
+    subPage.seo.keywords,
+    themeStyles,
+    body
+  );
 }
