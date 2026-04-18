@@ -13,7 +13,7 @@ async function loadRenderer() {
   return import(pathToFileURL(rendererEntry).href);
 }
 
-async function buildSiteFolder(slug, renderSinglePage) {
+async function buildSiteFolder(slug, renderMultiPage) {
   const dir = path.join(sitesRoot, slug);
   const specPath = path.join(dir, "site-spec.json");
   let raw;
@@ -31,10 +31,14 @@ async function buildSiteFolder(slug, renderSinglePage) {
   }
 
   try {
-    const html = renderSinglePage(siteSpec);
-    await mkdir(dir, { recursive: true });
-    await writeFile(path.join(dir, "index.html"), html, "utf8");
-    return { slug, status: "built" };
+    const pages = renderMultiPage(siteSpec);
+    for (const page of pages) {
+      const pageDir =
+        page.slug === "index" ? dir : path.join(dir, page.slug);
+      await mkdir(pageDir, { recursive: true });
+      await writeFile(path.join(pageDir, "index.html"), page.html, "utf8");
+    }
+    return { slug, status: "built", pages: pages.map((p) => p.slug) };
   } catch (error) {
     return {
       slug,
@@ -45,7 +49,7 @@ async function buildSiteFolder(slug, renderSinglePage) {
 }
 
 async function main() {
-  const { renderSinglePage } = await loadRenderer();
+  const { renderMultiPage } = await loadRenderer();
 
   const entries = await readdir(sitesRoot, { withFileTypes: true });
   const slugs = entries
@@ -56,7 +60,7 @@ async function main() {
 
   const results = [];
   for (const slug of slugs) {
-    results.push(await buildSiteFolder(slug, renderSinglePage));
+    results.push(await buildSiteFolder(slug, renderMultiPage));
   }
 
   const errors = results.filter((r) => r.status === "error");
