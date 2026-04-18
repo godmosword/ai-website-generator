@@ -1,0 +1,22 @@
+{
+  "name": "@webomate/cli",
+  "version": "0.1.1",
+  "type": "module",
+  "bin": {
+    "webomate": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/cli.d.ts",
+      "default": "./dist/cli.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@webomate/renderer": "0.1.1",
+    "@webomate/site-spec": "0.1.1"
+  }
+}
