@@ -1,6 +1,6 @@
 {
   "name": "@webomate/cli",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "bin": {
     "webomate": "./dist/cli.js"
@@ -16,7 +16,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@webomate/renderer": "0.1.1",
-    "@webomate/site-spec": "0.1.1"
+    "@webomate/renderer": "0.2.0",
+    "@webomate/site-spec": "0.2.0"
   }
 }
