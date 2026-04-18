@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { fixtures } from "@webomate/site-spec";
 import type { SiteSpec } from "@webomate/site-spec";
 import { renderSinglePage, renderMultiPage } from "./render.js";
+import { buildThemeStyles } from "./themes.js";
 
 const base = fixtures.studioBrand as SiteSpec;
 
@@ -235,5 +236,71 @@ describe("renderMultiPage", () => {
     const index = pages.find((p) => p.slug === "index")!;
     expect(index.html).not.toContain("<script>evil()");
     expect(index.html).toContain("&lt;script&gt;");
+  });
+
+  it("無效 spec 時 renderMultiPage 拋出錯誤", () => {
+    const badSpec = {
+      ...base,
+      ctas: [{ label: "x", url: "http://not-https.com", style: "primary" as const }]
+    };
+    expect(() => renderMultiPage(badSpec)).toThrow("SiteSpec 驗證失敗");
+  });
+
+  it("多個子頁時子頁包含兄弟頁面導覽連結", () => {
+    const spec: SiteSpec = {
+      ...base,
+      pages: [
+        {
+          slug: "about",
+          title: "關於我們",
+          hero: { title: "About", subtitle: "s", description: "d" },
+          sections: [{ id: "s1", heading: "h", body: "b" }],
+          seo: { title: "About", description: "about", keywords: ["about"] }
+        },
+        {
+          slug: "services",
+          title: "服務項目",
+          hero: { title: "Services", subtitle: "s", description: "d" },
+          sections: [{ id: "s2", heading: "h", body: "b" }],
+          seo: { title: "Services", description: "services", keywords: ["svc"] }
+        }
+      ]
+    };
+    const pages = renderMultiPage(spec);
+    const aboutPage = pages.find((p) => p.slug === "about")!;
+    expect(aboutPage.html).toContain("../services/index.html");
+    expect(aboutPage.html).toContain("服務項目");
+  });
+});
+
+describe("buildThemeStyles", () => {
+  const baseTheme = (fixtures.studioBrand as SiteSpec).theme;
+
+  it("natural tone 含有圓角與綠色背景", () => {
+    const css = buildThemeStyles({ ...baseTheme, tone: "natural" });
+    expect(css).toContain("border-radius: 24px");
+    expect(css).toContain("#f4f7f0");
+  });
+
+  it("minimal tone 含有直角與 letter-spacing", () => {
+    const css = buildThemeStyles({ ...baseTheme, tone: "minimal" });
+    expect(css).toContain("border-radius: 4px");
+    expect(css).toContain("letter-spacing");
+  });
+
+  it("business tone 含有陰影", () => {
+    const css = buildThemeStyles({ ...baseTheme, tone: "business" });
+    expect(css).toContain("box-shadow");
+  });
+
+  it("CSS 中包含 primaryColor 與 secondaryColor CSS 變數", () => {
+    const css = buildThemeStyles({ ...baseTheme, tone: "business" });
+    expect(css).toContain(`--primary: ${baseTheme.primaryColor}`);
+    expect(css).toContain(`--secondary: ${baseTheme.secondaryColor}`);
+  });
+
+  it("CSS 中包含 fontFamily", () => {
+    const css = buildThemeStyles({ ...baseTheme, tone: "minimal" });
+    expect(css).toContain(baseTheme.fontFamily);
   });
 });
