@@ -85,7 +85,10 @@ describe("CLI (integration)", () => {
     });
 
     it("無效 spec 回傳 exit 1 並輸出錯誤", () => {
-      const badSpec = { ...validSpec, ctas: [{ label: "x", url: "http://evil.com", style: "primary" }] };
+      const badSpec = {
+        ...validSpec,
+        ctas: [{ label: "x", url: "http://evil.com", style: "primary" }]
+      };
       const specPath = path.join(tmpDir, "bad-spec.json");
       writeFileSync(specPath, JSON.stringify(badSpec, null, 2), "utf8");
       const result = runCli(["validate", specPath]);
