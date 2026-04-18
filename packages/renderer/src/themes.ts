@@ -1,11 +1,13 @@
 import type { SiteTheme } from "@webomate/site-spec";
 
 export function buildThemeStyles(theme: SiteTheme): string {
+  // Strip characters that could break out of a CSS string context
+  const safeFontFamily = theme.fontFamily.replace(/[^a-zA-Z0-9 ,\-_]/g, "");
   const base = `
       :root {
         --primary: ${theme.primaryColor};
         --secondary: ${theme.secondaryColor};
-        --font: "${theme.fontFamily}", sans-serif;
+        --font: "${safeFontFamily}", sans-serif;
       }
       * { box-sizing: border-box; }
       body {

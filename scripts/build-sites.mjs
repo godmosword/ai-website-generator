@@ -33,6 +33,9 @@ async function buildSiteFolder(slug, renderMultiPage) {
   try {
     const pages = renderMultiPage(siteSpec);
     for (const page of pages) {
+      if (!/^[a-z0-9-]+$/.test(page.slug) && page.slug !== "index") {
+        return { slug, status: "error", reason: `invalid page slug: ${page.slug}` };
+      }
       const pageDir =
         page.slug === "index" ? dir : path.join(dir, page.slug);
       await mkdir(pageDir, { recursive: true });

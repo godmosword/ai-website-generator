@@ -135,12 +135,14 @@ async function loadSpec(specPath: string): Promise<SiteSpec> {
   } catch {
     process.stderr.write(`錯誤：找不到檔案 ${specPath}\n`);
     process.exit(1);
+    throw new Error("unreachable");
   }
   try {
     return JSON.parse(raw) as SiteSpec;
   } catch {
     process.stderr.write(`錯誤：${specPath} 不是合法的 JSON\n`);
     process.exit(1);
+    throw new Error("unreachable");
   }
 }
 

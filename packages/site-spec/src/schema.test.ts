@@ -18,7 +18,7 @@ describe("validateSiteSpec", () => {
       ...(fixtures.studioBrand as SiteSpec),
       ctas: [{ label: "x", url: "http://evil.com", style: "primary" }]
     };
-    expect(validateSiteSpec(spec).some((e) => e.includes("cta url 非 https"))).toBe(true);
+    expect(validateSiteSpec(spec).some((e) => e.includes("url 非 https"))).toBe(true);
   });
 
   it("拒絕非 https 的連結", () => {
@@ -26,7 +26,7 @@ describe("validateSiteSpec", () => {
       ...(fixtures.studioBrand as SiteSpec),
       links: [{ label: "x", url: "ftp://x" }]
     };
-    expect(validateSiteSpec(spec).some((e) => e.includes("link url 非 https"))).toBe(true);
+    expect(validateSiteSpec(spec).some((e) => e.includes("url 非 https"))).toBe(true);
   });
 
   it("拒絕錯誤色碼", () => {
@@ -107,7 +107,8 @@ describe("validateSiteSpec", () => {
   });
 
   it("拒絕缺少必要欄位", () => {
-    const { slug: _slug, ...noSlug } = fixtures.studioBrand as SiteSpec;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { slug, ...noSlug } = fixtures.studioBrand as SiteSpec;
     const spec = noSlug as unknown as SiteSpec;
     expect(validateSiteSpec(spec).some((e) => e.includes("缺少必要欄位"))).toBe(true);
   });
@@ -126,7 +127,8 @@ describe("validateSiteSpec", () => {
         }
       ]
     };
-    expect(validateSiteSpec(spec).some((e) => e.includes("驗證錯誤") || e.includes("值不合法") || e.includes("不可為空字串") || e.length > 0)).toBe(true);
-    expect(validateSiteSpec(spec)).not.toHaveLength(0);
+    const errors = validateSiteSpec(spec);
+    expect(errors.length).toBeGreaterThan(0);
+    expect(errors.some((e) => e.includes("/pages/0/slug"))).toBe(true);
   });
 });

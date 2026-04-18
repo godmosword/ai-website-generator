@@ -165,7 +165,7 @@ export function validateSiteSpec(siteSpec: SiteSpec): string[] {
   return errors;
 }
 
-function ajvErrorToMessage(err: ErrorObject, spec: SiteSpec): string | null {
+function ajvErrorToMessage(err: ErrorObject, _spec: SiteSpec): string | null {
   const path: string = err.instancePath ?? "";
   const keyword: string = err.keyword ?? "";
   const params: Record<string, unknown> = (err.params as Record<string, unknown>) ?? {};
@@ -184,16 +184,12 @@ function ajvErrorToMessage(err: ErrorObject, spec: SiteSpec): string | null {
 
   const ctaMatch = path.match(/^\/ctas\/(\d+)\/url$/);
   if (ctaMatch) {
-    const idx = Number(ctaMatch[1]);
-    const url = spec.ctas[idx]?.url ?? "";
-    return `cta url 非 https: ${url}`;
+    return `ctas[${ctaMatch[1]}] url 非 https`;
   }
 
   const linkMatch = path.match(/^\/links\/(\d+)\/url$/);
   if (linkMatch) {
-    const idx = Number(linkMatch[1]);
-    const url = spec.links[idx]?.url ?? "";
-    return `link url 非 https: ${url}`;
+    return `links[${linkMatch[1]}] url 非 https`;
   }
 
   if (path === "/theme/primaryColor") return "theme.primaryColor 必須為 #RRGGBB";
