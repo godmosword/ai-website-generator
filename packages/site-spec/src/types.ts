@@ -43,6 +43,14 @@ export interface SiteTheme {
   fontFamily: string;
 }
 
+export interface SubPage {
+  slug: string;
+  title: string;
+  hero: HeroSection;
+  sections: ContentSection[];
+  seo: SeoMeta;
+}
+
 export interface SiteSpec {
   slug: string;
   brandName: string;
@@ -53,4 +61,5 @@ export interface SiteSpec {
   contact: ContactInfo;
   seo: SeoMeta;
   theme: SiteTheme;
+  pages?: SubPage[];
 }

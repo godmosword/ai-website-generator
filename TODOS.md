@@ -4,9 +4,9 @@
 
 ## 產品與內容
 
-- [ ] **多頁／多路由**：在維持 SiteSpec 為核心的前提下，擴充為多頁站或子路徑策略。
-- [ ] **主題與範本庫**：內建多組 layout／CSS 變體，或支援「業界常見版型」切換。
-- [ ] **CLI**：本機 `init` / `validate` / `build` / `preview` 一條龍，降低手動編 JSON 門檻。
+- [x] **多頁／多路由**：`SiteSpec.pages[]` + `renderMultiPage()` + 子頁目錄輸出（v0.2.0）
+- [x] **主題與範本庫**：`buildThemeStyles()` 支援 `natural`、`minimal`、`business` 三種視覺風格（v0.2.0）
+- [x] **CLI**：本機 `init` / `validate` / `build` / `preview` 一條龍，降低手動編 JSON 門檻（v0.2.0）
 - [ ] Dify：匯出實際 Chatflow YAML／應用 ID 到 `infra/dify/`（與 [chatflow-blueprint.md](infra/dify/chatflow-blueprint.md) 對齊）。
 - [ ] n8n：依你的執行環境調整 `Write_Artifact`（本機檔案 vs S3 vs GitHub Contents API）。
 
@@ -17,9 +17,9 @@
 
 ## 程式品質與維運
 
-- [ ] `SiteSpec`：以單一權威驗證（例如完整 JSON Schema + Ajv）對齊 `validateSiteSpec`。
-- [ ] 測試：renderer 邊界案例（空字串、極長文案、非法 URL）；`validateSiteSpec` 錯誤訊息可讀性。
-- [ ] ESLint／Prettier（選用）：與 CI `npm run typecheck` 一併跑。
+- [x] `SiteSpec`：以完整 JSON Schema + Ajv draft-2020-12 取代手工 regex 驗證（v0.2.0）
+- [x] 測試：renderer 邊界案例、`validateSiteSpec` 所有錯誤分支、CLI 整合測試（v0.2.0，54 tests）
+- [x] ESLint／Prettier：已整合至 CI（v0.2.0）
 - [ ] 觀測（若有對外 API）：結構化 log、request id、與上游 AI 服務錯誤碼對照表。
 
 ## 文件

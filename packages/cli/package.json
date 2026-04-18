@@ -1,13 +1,14 @@
 {
-  "name": "@webomate/renderer",
+  "name": "@webomate/cli",
   "version": "0.2.0",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "bin": {
+    "webomate": "./dist/cli.js"
+  },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./dist/cli.d.ts",
+      "default": "./dist/cli.js"
     }
   },
   "scripts": {
@@ -15,6 +16,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@webomate/renderer": "0.2.0",
     "@webomate/site-spec": "0.2.0"
   }
 }

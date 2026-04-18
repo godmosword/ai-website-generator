@@ -4,6 +4,37 @@
 
 格式參考 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.0.0/)，版本號建議與 [package.json](package.json) 的 `version` 對齊。
 
+## [0.2.0] — 2026-04-18
+
+### Added
+
+- **`@webomate/cli`** 新套件：`webomate init / validate / build / preview` 指令
+- **多頁輸出** — `renderMultiPage()` 回傳 `RenderedPage[]`；`build-sites.mjs` 寫出子頁目錄
+- **主題變體** — `buildThemeStyles()` 支援 `natural`、`minimal`、`business` 三種視覺風格
+- **Pages schema** — `SiteSpec` 新增可選 `pages` 陣列；`SubPage` 型別匯出
+- **Ajv JSON Schema draft-2020-12 驗證** — 以 `Ajv2020` 取代手工 regex；錯誤訊息中文化
+- **ESLint + Prettier** — 強制套用至 `packages/*/src/**/*.ts`
+- **GitHub Actions CI** — 每次 push/PR 執行 typecheck → lint → format:check → test
+- **Dify chatflow 藍圖** — 更新至 v0.2.0 schema + DSL 匯出步驟
+- **n8n 流水線說明** — 記錄三種 Write_Artifact 模式（本機、GitHub Contents API、S3）
+
+### Fixed
+
+- **CSS injection** — `theme.fontFamily` 在注入 CSS 前先過濾非字型字元
+- **路徑穿越** — `build-sites.mjs` 驗證 `page.slug` 格式再用作目錄名稱
+- **TypeScript narrowing** — `loadSpec` 的 `process.exit` 後補 `throw new Error("unreachable")`
+- **CI action 版本** — `actions/checkout` 與 `setup-node` 從 `@v6`（不存在）修正為 `@v4`
+- **AJV 錯誤訊息** — 移除錯誤字串中的原始 URL 值，避免反射原始輸入
+
+### Tests
+
+- 測試數量 25 → 54（橫跨 3 個 package）
+- 新增 `packages/cli/src/cli.test.ts`：11 個整合測試，覆蓋所有 CLI 指令與錯誤路徑
+- 新增 `packages/renderer/src/themes.ts` 單元測試
+- 補充 `schema.test.ts`：`secondaryColor`、`minItems`、`tone` enum、`additionalProperties`、icon enum、style enum、pages slug、brandName empty 等情境
+
+---
+
 ## [Unreleased]
 
 ### Added
