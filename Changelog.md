@@ -39,6 +39,7 @@
 
 ### Added
 
+- Cursor Cloud Agent：新增 [`.cursor/environment.json`](.cursor/environment.json)，VM 啟動後以 **`npm ci`** 更新依賴；搭配 [`.cursor/Dockerfile`](.cursor/Dockerfile)（**Node 22**）作為環境基底。
 - 根目錄 [LICENSE](LICENSE)（**MIT**）。
 - `packages/site-spec`：`validateSiteSpec` 單元測試（[schema.test.ts](packages/site-spec/src/schema.test.ts)）。
 
