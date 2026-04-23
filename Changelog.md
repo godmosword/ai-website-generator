@@ -4,6 +4,14 @@
 
 格式參考 [Keep a Changelog](https://keepachangelog.com/zh-TW/1.0.0/)，版本號建議與 [package.json](package.json) 的 `version` 對齊。
 
+## [0.2.1] — 2026-04-24
+
+### Fixed
+
+- **Shell injection** — `webomate publish` 改用 `execFileSync` 陣列參數，並在執行 git 指令前先以 `validateSiteSpec()` 驗證 slug 格式，防止惡意 site-spec.json 觸發任意指令執行
+- **JSON-LD 注入** — Schema.org 結構化資料的 `</script>` 序列在插入 HTML 前做跳脫（`<\/`），防止 `brandName` 等欄位含有 `</script>` 字串時破壞頁面結構
+- **`.gitignore`** — 新增 `.claude/settings.local.json`
+
 ## [0.2.0] — 2026-04-18
 
 ### Added
