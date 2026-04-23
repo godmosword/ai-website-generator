@@ -8,7 +8,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@webomate/site-spec": path.join(root, "packages/site-spec/src/index.ts"),
-      "@webomate/renderer": path.join(root, "packages/renderer/src/index.ts")
+      "@webomate/renderer": path.join(root, "packages/renderer/src/index.ts"),
+      "@webomate/ai-generator": path.join(root, "packages/ai-generator/src/index.ts")
     }
   },
   test: {

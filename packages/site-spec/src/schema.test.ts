@@ -75,6 +75,80 @@ describe("validateSiteSpec", () => {
     expect(validateSiteSpec(spec).some((e) => e.includes("值不合法"))).toBe(true);
   });
 
+  it("接受 bold tone", () => {
+    const base = fixtures.studioBrand as SiteSpec;
+    const spec: SiteSpec = { ...base, theme: { ...base.theme, tone: "bold" } };
+    expect(validateSiteSpec(spec)).toEqual([]);
+  });
+
+  it("接受 elegant tone", () => {
+    const base = fixtures.studioBrand as SiteSpec;
+    const spec: SiteSpec = { ...base, theme: { ...base.theme, tone: "elegant" } };
+    expect(validateSiteSpec(spec)).toEqual([]);
+  });
+
+  it("接受 darkMode boolean", () => {
+    const base = fixtures.studioBrand as SiteSpec;
+    const spec: SiteSpec = { ...base, theme: { ...base.theme, darkMode: true } };
+    expect(validateSiteSpec(spec)).toEqual([]);
+  });
+
+  it("接受 logoUrl https URL", () => {
+    const base = fixtures.studioBrand as SiteSpec;
+    const spec: SiteSpec = { ...base, logoUrl: "https://example.com/logo.png" };
+    expect(validateSiteSpec(spec)).toEqual([]);
+  });
+
+  it("拒絕 logoUrl 非 https", () => {
+    const base = fixtures.studioBrand as SiteSpec;
+    const spec = { ...base, logoUrl: "http://evil.com/logo.png" } as unknown as SiteSpec;
+    expect(validateSiteSpec(spec).length).toBeGreaterThan(0);
+  });
+
+  it("接受 sections features variant 含 items", () => {
+    const base = fixtures.studioBrand as SiteSpec;
+    const spec: SiteSpec = {
+      ...base,
+      sections: [
+        {
+          id: "feat",
+          heading: "特色",
+          body: "說明",
+          variant: "features",
+          items: [{ label: "快速", description: "非常快", icon: "⚡" }]
+        }
+      ]
+    };
+    expect(validateSiteSpec(spec)).toEqual([]);
+  });
+
+  it("拒絕非法 section variant", () => {
+    const base = fixtures.studioBrand as SiteSpec;
+    const spec = {
+      ...base,
+      sections: [{ id: "s1", heading: "h", body: "b", variant: "unknown" }]
+    } as unknown as SiteSpec;
+    expect(validateSiteSpec(spec).some((e) => e.includes("值不合法"))).toBe(true);
+  });
+
+  it("接受 seo.ogImageUrl https URL", () => {
+    const base = fixtures.studioBrand as SiteSpec;
+    const spec: SiteSpec = {
+      ...base,
+      seo: { ...base.seo, ogImageUrl: "https://example.com/og.jpg" }
+    };
+    expect(validateSiteSpec(spec)).toEqual([]);
+  });
+
+  it("接受 hero.imageUrl https URL", () => {
+    const base = fixtures.studioBrand as SiteSpec;
+    const spec: SiteSpec = {
+      ...base,
+      hero: { ...base.hero, imageUrl: "https://example.com/hero.jpg" }
+    };
+    expect(validateSiteSpec(spec)).toEqual([]);
+  });
+
   it("拒絕 additionalProperties 多餘欄位", () => {
     const spec = {
       ...(fixtures.studioBrand as SiteSpec),

@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspace=@webomate/site-spec && npm run build --workspace=@webomate/renderer && npm run build --workspace=@webomate/cli",
+    "build": "npm run build --workspace=@webomate/site-spec && npm run build --workspace=@webomate/renderer && npm run build --workspace=@webomate/cli && npm run build --workspace=@webomate/ai-generator",
     "build:sites": "npm run build --workspace=@webomate/site-spec && npm run build --workspace=@webomate/renderer && node scripts/build-sites.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
