@@ -1,9 +1,12 @@
-export type ThemeTone = "natural" | "minimal" | "business";
+export type ThemeTone = "natural" | "minimal" | "business" | "bold" | "elegant";
+
+export type SectionVariant = "text" | "features" | "faq" | "stats";
 
 export interface HeroSection {
   title: string;
   subtitle: string;
   description: string;
+  imageUrl?: string;
 }
 
 export interface CallToAction {
@@ -18,10 +21,19 @@ export interface LinkItem {
   icon?: "facebook" | "instagram" | "line" | "linkedin" | "map" | "custom";
 }
 
+export interface SectionItem {
+  label: string;
+  value?: string;
+  description?: string;
+  icon?: string;
+}
+
 export interface ContentSection {
   id: string;
   heading: string;
   body: string;
+  variant?: SectionVariant;
+  items?: SectionItem[];
 }
 
 export interface ContactInfo {
@@ -34,6 +46,8 @@ export interface SeoMeta {
   title: string;
   description: string;
   keywords: string[];
+  ogImageUrl?: string;
+  canonicalUrl?: string;
 }
 
 export interface SiteTheme {
@@ -41,6 +55,7 @@ export interface SiteTheme {
   primaryColor: string;
   secondaryColor: string;
   fontFamily: string;
+  darkMode?: boolean;
 }
 
 export interface SubPage {
@@ -54,6 +69,7 @@ export interface SubPage {
 export interface SiteSpec {
   slug: string;
   brandName: string;
+  logoUrl?: string;
   hero: HeroSection;
   sections: ContentSection[];
   ctas: CallToAction[];

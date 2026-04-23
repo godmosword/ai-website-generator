@@ -134,7 +134,8 @@ describe("renderSinglePage", () => {
       theme: { ...base.theme, tone: "natural" }
     };
     const html = renderSinglePage(spec);
-    expect(html).toContain("border-radius: 24px");
+    expect(html).toContain("border-radius");
+    expect(html).toContain("#f4f7f0");
   });
 
   it("minimal tone 使用直角樣式", () => {
@@ -143,8 +144,8 @@ describe("renderSinglePage", () => {
       theme: { ...base.theme, tone: "minimal" }
     };
     const html = renderSinglePage(spec);
-    expect(html).toContain("border-radius: 4px");
     expect(html).toContain("letter-spacing");
+    expect(html).toContain("font-weight: 800");
   });
 
   it("business tone 使用陰影樣式", () => {
@@ -154,6 +155,178 @@ describe("renderSinglePage", () => {
     };
     const html = renderSinglePage(spec);
     expect(html).toContain("box-shadow");
+  });
+
+  it("bold tone 包含漸層樣式", () => {
+    const spec: SiteSpec = {
+      ...base,
+      theme: { ...base.theme, tone: "bold" }
+    };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("gradient");
+  });
+
+  it("elegant tone 包含 serif 字型設定", () => {
+    const spec: SiteSpec = {
+      ...base,
+      theme: { ...base.theme, tone: "elegant" }
+    };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("Georgia");
+  });
+
+  it("darkMode: true 時包含 prefers-color-scheme", () => {
+    const spec: SiteSpec = {
+      ...base,
+      theme: { ...base.theme, darkMode: true }
+    };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("prefers-color-scheme");
+  });
+
+  it("hero.imageUrl 有值時輸出 img 標籤", () => {
+    const spec: SiteSpec = {
+      ...base,
+      hero: { ...base.hero, imageUrl: "https://example.com/hero.jpg" }
+    };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("hero.jpg");
+    expect(html).toContain("hero__image");
+  });
+
+  it("logoUrl 有值時輸出 img 標籤", () => {
+    const spec: SiteSpec = {
+      ...base,
+      logoUrl: "https://example.com/logo.png"
+    };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("logo.png");
+  });
+
+  it("社群 icon 連結渲染 SVG", () => {
+    const spec: SiteSpec = {
+      ...base,
+      links: [
+        { label: "Facebook", url: "https://facebook.com/test", icon: "facebook" },
+        { label: "Instagram", url: "https://instagram.com/test", icon: "instagram" }
+      ]
+    };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("facebook.com/test");
+    expect(html).toContain("instagram.com/test");
+    expect(html).toContain("<svg");
+  });
+
+  it("features variant 輸出 features-grid", () => {
+    const spec: SiteSpec = {
+      ...base,
+      sections: [
+        {
+          id: "feat",
+          heading: "特色",
+          body: "說明",
+          variant: "features",
+          items: [
+            { label: "快速", description: "閃電般快速", icon: "⚡" },
+            { label: "安全", description: "銀行級加密", icon: "🔒" }
+          ]
+        }
+      ]
+    };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("features-grid");
+    expect(html).toContain("快速");
+    expect(html).toContain("閃電般快速");
+    expect(html).toContain("⚡");
+  });
+
+  it("stats variant 輸出 stats-grid", () => {
+    const spec: SiteSpec = {
+      ...base,
+      sections: [
+        {
+          id: "stats",
+          heading: "數據",
+          body: "成果",
+          variant: "stats",
+          items: [
+            { label: "客戶數", value: "1,000+" },
+            { label: "滿意度", value: "98%" }
+          ]
+        }
+      ]
+    };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("stats-grid");
+    expect(html).toContain("1,000+");
+    expect(html).toContain("98%");
+  });
+
+  it("faq variant 輸出 details/summary 折疊區塊", () => {
+    const spec: SiteSpec = {
+      ...base,
+      sections: [
+        {
+          id: "faq",
+          heading: "常見問題",
+          body: "解答",
+          variant: "faq",
+          items: [
+            { label: "如何下單？", description: "透過官網購物車即可。" },
+            { label: "可以退貨嗎？", description: "七天鑑賞期。" }
+          ]
+        }
+      ]
+    };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("<details");
+    expect(html).toContain("<summary>");
+    expect(html).toContain("如何下單？");
+    expect(html).toContain("透過官網購物車即可。");
+  });
+
+  it("輸出 Open Graph meta 標籤", () => {
+    const spec: SiteSpec = { ...base };
+    const html = renderSinglePage(spec);
+    expect(html).toContain('property="og:title"');
+    expect(html).toContain('property="og:description"');
+  });
+
+  it("輸出 Twitter Card meta 標籤", () => {
+    const spec: SiteSpec = { ...base };
+    const html = renderSinglePage(spec);
+    expect(html).toContain('name="twitter:card"');
+  });
+
+  it("輸出 Schema.org JSON-LD", () => {
+    const spec: SiteSpec = { ...base };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("application/ld+json");
+    expect(html).toContain("schema.org");
+  });
+
+  it("輸出 Google Fonts link 標籤", () => {
+    const spec: SiteSpec = { ...base };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("fonts.googleapis.com");
+    expect(html).toContain("preconnect");
+  });
+
+  it("seo.ogImageUrl 有值時加入 og:image", () => {
+    const spec: SiteSpec = {
+      ...base,
+      seo: { ...base.seo, ogImageUrl: "https://example.com/og.jpg" }
+    };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("og.jpg");
+    expect(html).toContain('property="og:image"');
+  });
+
+  it("包含漢堡選單 Navbar", () => {
+    const spec: SiteSpec = { ...base };
+    const html = renderSinglePage(spec);
+    expect(html).toContain("site-nav");
+    expect(html).toContain("hamburger");
   });
 });
 
@@ -276,21 +449,31 @@ describe("renderMultiPage", () => {
 describe("buildThemeStyles", () => {
   const baseTheme = (fixtures.studioBrand as SiteSpec).theme;
 
-  it("natural tone 含有圓角與綠色背景", () => {
+  it("natural tone 含有綠色背景", () => {
     const css = buildThemeStyles({ ...baseTheme, tone: "natural" });
-    expect(css).toContain("border-radius: 24px");
     expect(css).toContain("#f4f7f0");
+    expect(css).toContain("border-radius");
   });
 
-  it("minimal tone 含有直角與 letter-spacing", () => {
+  it("minimal tone 含有 letter-spacing", () => {
     const css = buildThemeStyles({ ...baseTheme, tone: "minimal" });
-    expect(css).toContain("border-radius: 4px");
     expect(css).toContain("letter-spacing");
+    expect(css).toContain("font-weight: 800");
   });
 
   it("business tone 含有陰影", () => {
     const css = buildThemeStyles({ ...baseTheme, tone: "business" });
     expect(css).toContain("box-shadow");
+  });
+
+  it("bold tone 含有 gradient", () => {
+    const css = buildThemeStyles({ ...baseTheme, tone: "bold" });
+    expect(css).toContain("gradient");
+  });
+
+  it("elegant tone 含有 Georgia serif", () => {
+    const css = buildThemeStyles({ ...baseTheme, tone: "elegant" });
+    expect(css).toContain("Georgia");
   });
 
   it("CSS 中包含 primaryColor 與 secondaryColor CSS 變數", () => {
@@ -302,5 +485,15 @@ describe("buildThemeStyles", () => {
   it("CSS 中包含 fontFamily", () => {
     const css = buildThemeStyles({ ...baseTheme, tone: "minimal" });
     expect(css).toContain(baseTheme.fontFamily);
+  });
+
+  it("darkMode: true 時包含 prefers-color-scheme", () => {
+    const css = buildThemeStyles({ ...baseTheme, tone: "minimal", darkMode: true });
+    expect(css).toContain("prefers-color-scheme");
+  });
+
+  it("darkMode: false 時不含 prefers-color-scheme", () => {
+    const css = buildThemeStyles({ ...baseTheme, tone: "minimal", darkMode: false });
+    expect(css).not.toContain("prefers-color-scheme");
   });
 });

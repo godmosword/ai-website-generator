@@ -1,0 +1,71 @@
+{
+  "slug": "bold-demo",
+  "brandName": "PULSE 健身俱樂部",
+  "hero": {
+    "title": "突破極限，超越自我",
+    "subtitle": "全台最強訓練場域",
+    "description": "24 小時開放，專業教練團隊，頂級器材設備，從入門到進階的完整訓練體驗。"
+  },
+  "sections": [
+    {
+      "id": "stats",
+      "heading": "數字說話",
+      "body": "我們的實力",
+      "variant": "stats",
+      "items": [
+        { "label": "活躍會員", "value": "8,000+" },
+        { "label": "專業教練", "value": "120+" },
+        { "label": "訓練項目", "value": "200+" },
+        { "label": "成立年份", "value": "2015" }
+      ]
+    },
+    {
+      "id": "features",
+      "heading": "訓練項目",
+      "body": "涵蓋全身各部位的專項課程",
+      "variant": "features",
+      "items": [
+        { "label": "重量訓練", "description": "專業槓鈴器械，完整自由重量區", "icon": "🏋️" },
+        { "label": "有氧課程", "description": "飛輪、拳擊有氧、HIIT 等", "icon": "🔥" },
+        { "label": "瑜珈冥想", "description": "舒壓伸展，找回身心平衡", "icon": "🧘" },
+        { "label": "私人教練", "description": "一對一客製化訓練計畫", "icon": "💪" }
+      ]
+    },
+    {
+      "id": "faq",
+      "heading": "常見問題",
+      "body": "您的疑惑我們來解答",
+      "variant": "faq",
+      "items": [
+        { "label": "如何成為會員？", "description": "線上填寫申請表或直接來館參觀，現場辦理即可。" },
+        { "label": "可以帶朋友試用嗎？", "description": "每月可邀請一位好友免費體驗一天。" },
+        { "label": "有提供個人置物櫃嗎？", "description": "所有方案均含專屬置物櫃，另有淋浴設備。" }
+      ]
+    }
+  ],
+  "ctas": [
+    { "label": "立即加入", "url": "https://example.com/join", "style": "primary" },
+    { "label": "預約體驗", "url": "https://example.com/trial", "style": "ghost" }
+  ],
+  "links": [
+    { "label": "Instagram", "url": "https://instagram.com/pulse-gym", "icon": "instagram" },
+    { "label": "Facebook", "url": "https://facebook.com/pulse-gym", "icon": "facebook" }
+  ],
+  "contact": {
+    "address": "台北市信義區健身路 1 號",
+    "phone": "02-8765-4321",
+    "email": "hello@pulse-gym.tw"
+  },
+  "seo": {
+    "title": "PULSE 健身俱樂部｜突破極限",
+    "description": "台北頂級健身俱樂部，24 小時開放，120+ 專業教練，200+ 訓練項目。",
+    "keywords": ["健身房", "台北健身", "重量訓練", "私人教練"]
+  },
+  "theme": {
+    "tone": "bold",
+    "primaryColor": "#FF3D00",
+    "secondaryColor": "#FF9100",
+    "fontFamily": "Noto Sans TC",
+    "darkMode": true
+  }
+}

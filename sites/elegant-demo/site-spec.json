@@ -1,0 +1,65 @@
+{
+  "slug": "elegant-demo",
+  "brandName": "La Maison 精品婚宴",
+  "hero": {
+    "title": "為您的永恆時刻，精心打造",
+    "subtitle": "SINCE 2008 · 台北頂級婚宴場地",
+    "description": "坐落於台北市精華地段，以法式宮廷美學融合當代設計，見證每一對新人最美麗的承諾。"
+  },
+  "sections": [
+    {
+      "id": "about",
+      "heading": "關於我們",
+      "body": "La Maison 擁有超過 15 年的婚宴服務經驗，從場地布置、餐飲規劃到婚禮統籌，以最細膩的服務態度，確保每個細節完美無瑕。"
+    },
+    {
+      "id": "features",
+      "heading": "專屬服務",
+      "body": "一站式婚宴解決方案",
+      "variant": "features",
+      "items": [
+        { "label": "場地設計", "description": "法式宮廷風格，可容納 50-300 位賓客", "icon": "🏛️" },
+        { "label": "精緻餐飲", "description": "米其林主廚主理，法式與台式融合菜單", "icon": "🍽️" },
+        { "label": "婚禮統籌", "description": "專屬婚禮顧問，全程貼身服務", "icon": "💍" },
+        { "label": "攝影錄影", "description": "合作頂級攝影團隊，記錄每個珍貴瞬間", "icon": "📷" }
+      ]
+    },
+    {
+      "id": "stats",
+      "heading": "榮耀見證",
+      "body": "數字背後是無數美好的回憶",
+      "variant": "stats",
+      "items": [
+        { "label": "圓滿婚禮", "value": "2,400+" },
+        { "label": "服務年資", "value": "15 年" },
+        { "label": "賓客滿意度", "value": "99.2%" },
+        { "label": "專屬場地", "value": "6 廳" }
+      ]
+    }
+  ],
+  "ctas": [
+    { "label": "預約參觀", "url": "https://example.com/visit", "style": "primary" },
+    { "label": "下載型錄", "url": "https://example.com/catalog", "style": "ghost" }
+  ],
+  "links": [
+    { "label": "Instagram", "url": "https://instagram.com/lamaison", "icon": "instagram" },
+    { "label": "Facebook", "url": "https://facebook.com/lamaison", "icon": "facebook" },
+    { "label": "Google 地圖", "url": "https://maps.google.com/?q=taipei", "icon": "map" }
+  ],
+  "contact": {
+    "address": "台北市大安區忠孝東路四段 1 號",
+    "phone": "02-2345-6789",
+    "email": "reservation@lamaison.tw"
+  },
+  "seo": {
+    "title": "La Maison 精品婚宴｜台北頂級婚宴場地",
+    "description": "台北頂級婚宴場地，法式宮廷美學，一站式婚禮服務，15 年口碑見證。",
+    "keywords": ["婚宴場地", "台北婚禮", "精品婚宴", "法式婚禮"]
+  },
+  "theme": {
+    "tone": "elegant",
+    "primaryColor": "#8B6F4E",
+    "secondaryColor": "#F0E6D3",
+    "fontFamily": "Noto Serif TC"
+  }
+}

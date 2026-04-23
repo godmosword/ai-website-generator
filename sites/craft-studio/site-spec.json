@@ -1,0 +1,59 @@
+{
+  "slug": "craft-studio",
+  "brandName": "職人木作工作室",
+  "hero": {
+    "title": "把生活的溫度做進每件作品",
+    "subtitle": "日系簡約・客製木作",
+    "description": "提供家具客製、空間木作與企業禮贈品設計，從草圖到成品一條龍完成。"
+  },
+  "sections": [
+    {
+      "id": "services",
+      "heading": "服務項目",
+      "body": "客製家具、商業空間展示櫃、品牌木作禮盒，支援尺寸與材質選配。"
+    },
+    {
+      "id": "booking",
+      "heading": "預約流程",
+      "body": "填寫需求表單後，我們會在 24 小時內回覆初步估價與時程。"
+    }
+  ],
+  "ctas": [
+    {
+      "label": "預約諮詢",
+      "url": "https://example.com/booking",
+      "style": "primary"
+    }
+  ],
+  "links": [
+    {
+      "label": "作品集 IG",
+      "url": "https://instagram.com/craft-studio",
+      "icon": "instagram"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://linkedin.com/company/craft-studio",
+      "icon": "linkedin"
+    }
+  ],
+  "contact": {
+    "address": "台北市中山區示意街 10 巷 3 號",
+    "email": "hi@craft-studio.tw"
+  },
+  "seo": {
+    "title": "職人木作工作室｜客製家具與空間木作",
+    "description": "日系簡約木作品牌，提供客製家具、空間木作與企業禮贈品設計服務。",
+    "keywords": [
+      "木作",
+      "客製家具",
+      "工作室"
+    ]
+  },
+  "theme": {
+    "tone": "minimal",
+    "primaryColor": "#3A3A3A",
+    "secondaryColor": "#C19A6B",
+    "fontFamily": "Noto Serif TC"
+  }
+}

@@ -1,6 +1,60 @@
 import { Ajv2020, type ErrorObject } from "ajv/dist/2020.js";
 import type { SiteSpec } from "./types.js";
 
+const heroSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["title", "subtitle", "description"],
+  properties: {
+    title: { type: "string", minLength: 1 },
+    subtitle: { type: "string", minLength: 1 },
+    description: { type: "string", minLength: 1 },
+    imageUrl: { type: "string", pattern: "^https://.+" }
+  }
+} as const;
+
+const sectionItemSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["label"],
+  properties: {
+    label: { type: "string", minLength: 1 },
+    value: { type: "string" },
+    description: { type: "string" },
+    icon: { type: "string" }
+  }
+} as const;
+
+const contentSectionSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["id", "heading", "body"],
+  properties: {
+    id: { type: "string", minLength: 1 },
+    heading: { type: "string", minLength: 1 },
+    body: { type: "string", minLength: 1 },
+    variant: { enum: ["text", "features", "faq", "stats"] },
+    items: { type: "array", items: sectionItemSchema }
+  }
+} as const;
+
+const seoSchema = {
+  type: "object",
+  additionalProperties: false,
+  required: ["title", "description", "keywords"],
+  properties: {
+    title: { type: "string", minLength: 1 },
+    description: { type: "string", minLength: 1 },
+    keywords: {
+      type: "array",
+      minItems: 1,
+      items: { type: "string", minLength: 1 }
+    },
+    ogImageUrl: { type: "string", pattern: "^https://.+" },
+    canonicalUrl: { type: "string", pattern: "^https://.+" }
+  }
+} as const;
+
 export const siteSpecJsonSchema = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
   $id: "https://webomate.dev/schemas/site-spec.json",
@@ -10,29 +64,12 @@ export const siteSpecJsonSchema = {
   properties: {
     slug: { type: "string", minLength: 2, pattern: "^[a-z0-9-]+$" },
     brandName: { type: "string", minLength: 1 },
-    hero: {
-      type: "object",
-      additionalProperties: false,
-      required: ["title", "subtitle", "description"],
-      properties: {
-        title: { type: "string", minLength: 1 },
-        subtitle: { type: "string", minLength: 1 },
-        description: { type: "string", minLength: 1 }
-      }
-    },
+    logoUrl: { type: "string", pattern: "^https://.+" },
+    hero: heroSchema,
     sections: {
       type: "array",
       minItems: 1,
-      items: {
-        type: "object",
-        additionalProperties: false,
-        required: ["id", "heading", "body"],
-        properties: {
-          id: { type: "string", minLength: 1 },
-          heading: { type: "string", minLength: 1 },
-          body: { type: "string", minLength: 1 }
-        }
-      }
+      items: contentSectionSchema
     },
     ctas: {
       type: "array",
@@ -72,29 +109,17 @@ export const siteSpecJsonSchema = {
         email: { type: "string" }
       }
     },
-    seo: {
-      type: "object",
-      additionalProperties: false,
-      required: ["title", "description", "keywords"],
-      properties: {
-        title: { type: "string", minLength: 1 },
-        description: { type: "string", minLength: 1 },
-        keywords: {
-          type: "array",
-          minItems: 1,
-          items: { type: "string", minLength: 1 }
-        }
-      }
-    },
+    seo: seoSchema,
     theme: {
       type: "object",
       additionalProperties: false,
       required: ["tone", "primaryColor", "secondaryColor", "fontFamily"],
       properties: {
-        tone: { enum: ["natural", "minimal", "business"] },
+        tone: { enum: ["natural", "minimal", "business", "bold", "elegant"] },
         primaryColor: { type: "string", pattern: "^#([A-Fa-f0-9]{6})$" },
         secondaryColor: { type: "string", pattern: "^#([A-Fa-f0-9]{6})$" },
-        fontFamily: { type: "string", minLength: 1 }
+        fontFamily: { type: "string", minLength: 1 },
+        darkMode: { type: "boolean" }
       }
     },
     pages: {
@@ -106,44 +131,13 @@ export const siteSpecJsonSchema = {
         properties: {
           slug: { type: "string", minLength: 1, pattern: "^[a-z0-9-]+$" },
           title: { type: "string", minLength: 1 },
-          hero: {
-            type: "object",
-            additionalProperties: false,
-            required: ["title", "subtitle", "description"],
-            properties: {
-              title: { type: "string", minLength: 1 },
-              subtitle: { type: "string", minLength: 1 },
-              description: { type: "string", minLength: 1 }
-            }
-          },
+          hero: heroSchema,
           sections: {
             type: "array",
             minItems: 1,
-            items: {
-              type: "object",
-              additionalProperties: false,
-              required: ["id", "heading", "body"],
-              properties: {
-                id: { type: "string", minLength: 1 },
-                heading: { type: "string", minLength: 1 },
-                body: { type: "string", minLength: 1 }
-              }
-            }
+            items: contentSectionSchema
           },
-          seo: {
-            type: "object",
-            additionalProperties: false,
-            required: ["title", "description", "keywords"],
-            properties: {
-              title: { type: "string", minLength: 1 },
-              description: { type: "string", minLength: 1 },
-              keywords: {
-                type: "array",
-                minItems: 1,
-                items: { type: "string", minLength: 1 }
-              }
-            }
-          }
+          seo: seoSchema
         }
       }
     }
