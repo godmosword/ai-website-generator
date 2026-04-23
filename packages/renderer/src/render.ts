@@ -170,7 +170,7 @@ function buildHead(opts: {
     name: opts.seoTitle,
     description: opts.seoDescription,
     publisher: { "@type": "Organization", name: opts.brandName }
-  });
+  }).replace(/<\//g, "<\\/");
 
   return `<!doctype html>
 <html lang="zh-Hant">

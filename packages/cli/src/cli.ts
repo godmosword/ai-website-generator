@@ -265,17 +265,23 @@ async function cmdPublish(specPath: string | undefined) {
   const resolved = resolveSpecPath(specPath);
   const spec = await loadSpec(resolved);
 
+  const errors = validateSiteSpec(spec);
+  if (errors.length) {
+    process.stderr.write(`site-spec.json 驗證失敗：\n${errors.map(e => `  • ${e}`).join("\n")}\n`);
+    process.exit(1);
+  }
+
   process.stdout.write(`📤 正在準備發佈 ${spec.slug}...\n`);
 
   // Build latest HTML first
   await cmdBuild(specPath);
 
-  // Git operations via child_process
-  const { execSync } = await import("node:child_process");
+  // Git operations via child_process — use array argv to prevent shell injection
+  const { execFileSync } = await import("node:child_process");
   try {
-    execSync(`git add sites/${spec.slug}`, { stdio: "inherit" });
-    execSync(`git commit -m "chore: update site-spec for ${spec.slug}"`, { stdio: "inherit" });
-    execSync("git push", { stdio: "inherit" });
+    execFileSync("git", ["add", `sites/${spec.slug}`], { stdio: "inherit" });
+    execFileSync("git", ["commit", "-m", `chore: update site-spec for ${spec.slug}`], { stdio: "inherit" });
+    execFileSync("git", ["push"], { stdio: "inherit" });
     process.stdout.write(`✓ 已推送至 GitHub，部署 Pipeline 將自動觸發。\n`);
   } catch (err) {
     process.stderr.write(`git 操作失敗：${String(err)}\n`);
