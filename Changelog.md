@@ -11,6 +11,7 @@
 - **Shell injection** — `webomate publish` 改用 `execFileSync` 陣列參數，並在執行 git 指令前先以 `validateSiteSpec()` 驗證 slug 格式，防止惡意 site-spec.json 觸發任意指令執行
 - **JSON-LD 注入** — Schema.org 結構化資料的 `</script>` 序列在插入 HTML 前做跳脫（`<\/`），防止 `brandName` 等欄位含有 `</script>` 字串時破壞頁面結構
 - **`.gitignore`** — 新增 `.claude/settings.local.json`
+- **CI typecheck** — 在 typecheck 步驟前先建置 `@webomate/site-spec`，解決 CI 環境缺少 `dist/` 型別宣告導致的模組解析失敗
 
 ## [0.2.0] — 2026-04-18
 
