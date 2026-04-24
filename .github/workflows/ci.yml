@@ -20,6 +20,9 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Build site-spec
+        run: npm run build --workspace=@webomate/site-spec
+
       - name: Typecheck
         run: npm run typecheck
 
