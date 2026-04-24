@@ -4,3 +4,4 @@ dist
 coverage
 # 由 CI / `npm run build:sites` 從 site-spec.json 產生，避免與來源 JSON 脫節
 sites/*/index.html
+.claude/settings.local.json
