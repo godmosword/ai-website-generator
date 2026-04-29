@@ -15,6 +15,16 @@
 
 更細的 Pages 與 n8n 說明請見 [infra/github-pages/README.md](infra/github-pages/README.md)、[infra/n8n/README.md](infra/n8n/README.md)。
 
+## 快速建立環境
+
+若你想一鍵完成安裝、驗證與建置，可直接執行：
+
+```bash
+bash scripts/setup-env.sh
+```
+
+此腳本會依序執行：`npm ci`、`npm run typecheck`、`npm test`、`npm run build:sites`。
+
 ## 本機開發
 
 ```bash
